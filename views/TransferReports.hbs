@@ -1,0 +1,217 @@
+{{!-- 
+Citation for the handlebar template:
+Date: 11/26/2023
+Adapted from:
+Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main 
+--}}
+
+<!-- Browse Form -->
+<div id="browse">
+  <table border="1" cellpadding="5">
+    <thead>
+      <tr>
+          <th>Transfer Report ID</th>
+          <th>Distribution Center</th>
+          <th>Store</th>
+          <th>Date Created</th>
+          <th>Delivery Date Time</th>
+          <th>Expedited</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each data}}
+        <tr>
+          <td>{{this.transferReportID}}</td>
+          <td>{{this.address}}</td>
+          <td>{{this.storeName}}</td>
+          <td>{{formatDate this.dateCreated}}</td>
+          <td>{{formatDateTime this.deliveryDateTime}}</td>
+          <td>{{#if this.expedited}}
+                Yes
+              {{else}}
+                No
+              {{/if}}
+          </td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  <p>&nbsp;</p>
+</div>
+
+<!-- Insert Form -->
+<div id="insert">
+  <form method="POST" id="frm_addTransferReport" action="/addTransferReports">
+    <legend><strong>Add A TransferReport</strong></legend>
+    <fieldset class="fields">
+      <label> Distribution Center </label> 
+     <select name="input-address" id="input-address" required>
+        <option value="">Select A Distribution Center</option>
+        {{#each DistributionCenters}}
+          <option
+            value="{{this.address}}"
+          >{{this.address}}</option>
+        {{/each}}
+      </select>
+
+      <label> Store </label> 
+     <select name="input-storeName" id="input-storeName" required>
+        <option value="">Select A Store</option>
+        {{#each Stores}}
+          <option
+            value="{{this.storeName}}"
+          >{{this.storeName}}</option>
+        {{/each}}
+      </select>
+
+      <label> Date Created </label> 
+      <input type="date" name="input-dateCreated" id="input-dateCreated" required/>
+
+      <label> Delivery Date Time </label> 
+      <input type="datetime-local" name="input-deliveryDateTime" id="input-deliveryDateTime" required/>
+
+      <label> Expedited </label> 
+      <input type="checkbox" name="input-expedited" id="input-expedited" value="1"/>
+    </fieldset>
+
+    <input
+      class="btn"
+      type="submit"
+      id="in_addTransferReports"
+      value="Add TransferReport"
+    />
+  </form>
+</div>
+
+<!-- Update Form -->
+<p>&nbsp;</p>
+<div id="update">
+  <form id="frm_updateTransferReports">
+    <legend><strong>Update TransferReport</strong></legend>
+    <fieldset class="fields">
+      <input
+        type="hidden"
+        name="updateTransferReportsID"
+        id="in_updateTransferReportsID"
+        value="1"
+      />
+      <label> TransferReport ID: </label>
+      <select name="updateTransferReportID" id="updateTransferReportID">
+        <option value="">Select A TransferReport ID</option>
+        {{#each data}}
+          <option
+            value="{{this.transferReportID}}"
+          >{{this.transferReportID}}</option>
+        {{/each}}
+      </select>
+
+      <label> Distribution Center </label> 
+     <select name="updateAddress" id="updateAddress" required>
+        <option value="">Select A Distribution Center</option>
+        {{#each DistributionCenters}}
+          <option
+            value="{{this.address}}"
+          >{{this.address}}</option>
+        {{/each}}
+      </select>
+
+      <label> Store </label> 
+     <select name="updateStoreName" id="updateStoreName" required>
+        <option value="">Select A Store</option>
+        {{#each Stores}}
+          <option
+            value="{{this.storeName}}"
+          >{{this.storeName}}</option>
+        {{/each}}
+      </select>
+
+      <label> Date Created </label> 
+      <input type="date" name="updateDateCreated" id="updateDateCreated" required/>
+
+      <label> Delivery Date Time </label> 
+      <input type="datetime-local" name="updateDeliveryDateTime" id="updateDeliveryDateTime" required/>
+
+      <label> Expedited </label> 
+      <input type="checkbox" name="updateExpedited" id="updateExpedited" value="1"/>
+    </fieldset>
+    <input
+      class="btn"
+      type="button"
+      id="in_updateTransferReports"
+      value="Update TransferReport"
+      onclick="updateTransferReports()"
+    />
+  </form>
+</div>
+
+{{!-- Delete Form --}}
+<p>&nbsp;</p>
+<div id="delete" style="display: block">
+  <form id="frm_deleteTransferReports">
+    <legend><strong>Delete TransferReport</strong></legend>
+    <fieldset class="fields">
+      <p>Are you sure you wish to delete the following?</p>
+      <input
+        type="hidden"
+        name="deleteTransferReportsID"
+        id="in_deleteTransferReportsID"
+        value="1"
+      />
+      <label> TransferReport ID: </label>
+      <select name="deleteTransferReportID" id="deleteTransferReportID">
+        <option value="">Select A TransferReport ID</option>
+        {{#each data}}
+          <option
+            value="{{this.transferReportID}}"
+          >{{this.transferReportID}}</option>
+        {{/each}}
+      </select>
+    </fieldset>
+
+    <input
+      class="btn"
+      type="button"
+      id="in_deleteTransferReports"
+      value="Delete TransferReport"
+      onclick="deleteTransferReports()"
+    />
+  </form>
+</div>
+
+{{!-- The following script was created by our team to fill the update form. --}}
+<script>
+  selectedID = document.getElementById("updateTransferReportID")
+  address = document.getElementById("updateAddress")
+  storeName = document.getElementById("updateStoreName")
+  dateCreated = document.getElementById("updateDateCreated")
+  deliveryDateTime = document.getElementById("updateDeliveryDateTime")
+  expedited = document.getElementById("updateExpedited")
+  table = Array.from(document.querySelectorAll("td"))
+
+  selectedID.addEventListener("change", (e) => {
+    if (selectedID.selectedIndex === 0) {
+      address.value = ""
+      storeName.value = ""
+      dateCreated.value = ""
+      deliveryDateTime.value = ""
+      expedited.checked = false
+    } else {
+      address.value = table[6 * selectedID.selectedIndex - 5].innerText
+      storeName.value = table[6 * selectedID.selectedIndex - 4].innerText
+      dateCreated.value = new Date(table[6 * selectedID.selectedIndex - 3].innerText).toISOString().slice(0, 10)
+
+      // Converts the date to iso time and time to local time then combine and display the value
+      deliveryDate = new Date(table[6 * selectedID.selectedIndex - 2].innerText).toISOString().slice(0, 11)
+      deliveryTime = new Date(table[6 * selectedID.selectedIndex - 2].innerText).toLocaleTimeString("en-us", {hour12:false}).slice(0,5)
+      deliveryDateTime.value = deliveryDate + deliveryTime 
+
+      // Checks the checkbox based on table entry
+      if (table[6 * selectedID.selectedIndex - 1].innerText === "Yes") {
+        expedited.checked = true
+      }
+      else {
+        expedited.checked = false
+      }
+    }
+    })
+</script>

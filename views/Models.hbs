@@ -1,0 +1,135 @@
+{{!-- 
+Citation for the handlebar template:
+Date: 11/26/2023
+Adapted from:
+Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main 
+--}}
+
+<!-- Browse Form -->
+<div id="browse">
+  <table border="1" cellpadding="5">
+    <thead>
+      <tr>
+          <th>Model ID</th>
+          <th>Model Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each data}}
+        <tr>
+          <td>{{this.modelID}}</td>
+          <td>{{this.modelName}}</td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  <p>&nbsp;</p>
+</div>
+
+<!-- Insert Form -->
+<div id="insert">
+  <form method="POST" id="frm_addModel" action="/addModels">
+    <legend><strong>Add A Model Name</strong></legend>
+    <fieldset class="fields">
+      <label> Model Name </label> 
+      <input type="text" name="input-modelName" id="input-modelName" required/>
+    </fieldset>
+
+    <input
+      class="btn"
+      type="submit"
+      id="in_addModels"
+      value="Add Model"
+    />
+  </form>
+</div>
+
+<!-- Update Form -->
+<p>&nbsp;</p>
+<div id="update">
+  <form id="frm_updateModels">
+    <legend><strong>Update Model Names</strong></legend>
+    <fieldset class="fields">
+      <input
+        type="hidden"
+        name="updateModelsID"
+        id="in_updateModelsID"
+        value="1"
+      />
+      <label> Model ID: </label>
+      <select name="updateModelID" id="updateModelID">
+        <option value="">Select A Model ID</option>
+        {{#each data}}
+          <option
+            value="{{this.modelID}}"
+          >{{this.modelID}}</option>
+        {{/each}}
+      </select>
+
+      <label> Model Name </label>
+      <input type="text" name="updateModelName" id="updateModelName" list="modelNames" required/>
+      <datalist id="modelNames" req>
+        {{#each data}}
+          <option value="{{this.modelName}}">{{this.modelName}}</option>
+        {{/each}}
+      </datalist>
+    </fieldset>
+
+    <input
+      class="btn"
+      type="button"
+      id="in_updateModels"
+      value="Update Model"
+      onclick="updateModels()"
+    />
+  </form>
+</div>
+
+{{!-- Delete Form --}}
+<p>&nbsp;</p>
+<div id="delete" style="display: block">
+  <form id="frm_deleteModels">
+    <legend><strong>Delete Model Name</strong></legend>
+    <fieldset class="fields">
+      <p>Are you sure you wish to delete the following?</p>
+      <input
+        type="hidden"
+        name="deleteModelsID"
+        id="in_deleteModelsID"
+        value="1"
+      />
+      <label> Model ID: </label>
+      <select name="deleteModelID" id="deleteModelID">
+        <option value="">Select A Model ID</option>
+        {{#each data}}
+          <option
+            value="{{this.modelID}}"
+          >{{this.modelID}}</option>
+        {{/each}}
+      </select>
+    </fieldset>
+
+    <input
+      class="btn"
+      type="button"
+      id="in_deleteModels"
+      value="Delete Model"
+      onclick="deleteModels()"
+    />
+  </form>
+</div>
+
+{{!-- The following script was created by our team to fill the update form. --}}
+<script>
+  selectedID = document.getElementById("updateModelID")
+  modelName = document.getElementById("updateModelName")
+  table = Array.from(document.querySelectorAll("td"))
+
+  selectedID.addEventListener("change", (e) => {
+    if (selectedID.selectedIndex === 0) {
+      modelName.value = ""
+    } else {
+      modelName.value = table[2 * selectedID.selectedIndex - 1].innerText
+    }
+    })
+</script>

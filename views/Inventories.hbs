@@ -1,0 +1,189 @@
+{{!-- 
+Citation for the handlebar template:
+Date: 11/26/2023
+Adapted from:
+Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main 
+--}}
+
+<!-- Browse Form -->
+<div id="browse">
+  <table border="1" cellpadding="5">
+    <thead>
+      <tr>
+          <th>Inventory ID</th>
+          <th>Address</th>
+          <th>Barcode</th>
+          <th>Quantity</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each data}}
+        <tr>
+          <td>{{this.inventoryID}}</td>
+          <td>{{this.address}}</td>
+          <td>{{this.barcode}}</td>
+          <td>{{this.quantity}}</td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  <p>&nbsp;</p>
+</div>
+
+<!-- Insert Form -->
+<div id="insert">
+  <form method="POST" id="frm_addInventory" action="/addInventories">
+    <legend><strong>Add An Inventory</strong></legend>
+    <fieldset class="fields">
+      <label> Address </label> 
+     <select name="input-address" id="input-address" required>
+        <option value="">Select An Address</option>
+        {{#each distributionCenters}}
+          <option
+            value="{{this.address}}"
+          >{{this.address}}</option>
+        {{/each}}
+      </select>
+
+      <label> Barcode </label> 
+     <select name="input-barcode" id="input-barcode" required>
+        <option value="">Select A Barcode</option>
+        {{#each products}}
+          <option
+            value="{{this.barcode}}"
+          >{{this.barcode}}</option>
+        {{/each}}
+      </select>
+
+      <label> Quantity </label> 
+      <input type="number" name="input-quantity" id="input-quantity" list="quantities" required/>
+      <datalist id="quantities" req>
+        {{#each data}}
+          <option value="{{this.quantity}}">{{this.quantity}}</option>
+        {{/each}}
+      </datalist>
+    </fieldset>
+
+    <input
+      class="btn"
+      type="submit"
+      id="in_addInventories"
+      value="Add Inventory"
+    />
+  </form>
+</div>
+
+<!-- Update Form -->
+<p>&nbsp;</p>
+<div id="update">
+  <form id="frm_updateInventories">
+    <legend><strong>Update Inventory</strong></legend>
+    <fieldset class="fields">
+      <input
+        type="hidden"
+        name="updateInventoriesID"
+        id="in_updateInventoriesID"
+        value="1"
+      />
+      <label> Inventory ID: </label>
+      <select name="updateInventoryID" id="updateInventoryID">
+        <option value="">Select A Inventory ID</option>
+        {{#each data}}
+          <option
+            value="{{this.inventoryID}}"
+          >{{this.inventoryID}}</option>
+        {{/each}}
+      </select>
+
+      <label> Address </label>
+      <select name="updateAddress" id="updateAddress" required>
+        <option value="">Select An Address</option>
+        {{#each distributionCenters}}
+          <option
+            value="{{this.address}}"
+          >{{this.address}}</option>
+        {{/each}}
+      </select>
+
+    <label> Barcode </label>
+    <select name="updateBarcode" id="updateBarcode" required>
+      <option value="">Select A Barcode</option>
+      {{#each products}}
+        <option
+          value="{{this.barcode}}"
+        >{{this.barcode}}</option>
+      {{/each}}
+    </select>
+
+    <label> Quantity </label>
+      <input type="number" name="updateQuantity" id="updateQuantity" list="quantities" required/>
+      <datalist id="quantities" req>
+        {{#each data}}
+          <option value="{{this.quantity}}">{{this.quantity}}</option>
+        {{/each}}
+      </datalist>
+    </fieldset>
+    <input
+      class="btn"
+      type="button"
+      id="in_updateInventories"
+      value="Update Inventory"
+      onclick="updateInventories()"
+    />
+  </form>
+</div>
+
+{{!-- Delete Form --}}
+<p>&nbsp;</p>
+<div id="delete" style="display: block">
+  <form id="frm_deleteInventories">
+    <legend><strong>Delete Inventory</strong></legend>
+    <fieldset class="fields">
+      <p>Are you sure you wish to delete the following?</p>
+      <input
+        type="hidden"
+        name="deleteInventoriesID"
+        id="in_deleteInventoriesID"
+        value="1"
+      />
+      <label> Inventory ID: </label>
+      <select name="deleteInventoryID" id="deleteInventoryID">
+        <option value="">Select A Inventory ID</option>
+        {{#each data}}
+          <option
+            value="{{this.inventoryID}}"
+          >{{this.inventoryID}}</option>
+        {{/each}}
+      </select>
+    </fieldset>
+
+    <input
+      class="btn"
+      type="button"
+      id="in_deleteInventories"
+      value="Delete Inventory"
+      onclick="deleteInventories()"
+    />
+  </form>
+</div>
+
+{{!-- The following script was created by our team to fill the update form. --}}
+<script>
+  selectedID = document.getElementById("updateInventoryID")
+  address = document.getElementById("updateAddress")
+  barcode = document.getElementById("updateBarcode")
+  quantity = document.getElementById("updateQuantity")
+  table = Array.from(document.querySelectorAll("td"))
+
+  selectedID.addEventListener("change", (e) => {
+    if (selectedID.selectedIndex === 0) {
+      address.value = ""
+      barcode.value = ""
+      quantity.value = ""
+    } else {
+      address.value = table[4 * selectedID.selectedIndex - 3].innerText
+      barcode.value = table[4 * selectedID.selectedIndex - 2].innerText
+      quantity.value = table[4 * selectedID.selectedIndex - 1].innerText
+    }
+    })
+</script>

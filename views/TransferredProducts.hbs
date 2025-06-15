@@ -1,0 +1,189 @@
+{{!-- 
+Citation for the handlebar template:
+Date: 11/26/2023
+Adapted from:
+Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main 
+--}}
+
+<!-- Browse Form -->
+<div id="browse">
+  <table border="1" cellpadding="5">
+    <thead>
+      <tr>
+          <th>Transferred Product ID</th>
+          <th>Barcode</th>
+          <th>Transfer Report ID</th>
+          <th>Quantity</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each data}}
+        <tr>
+          <td>{{this.transferredProductID}}</td>
+          <td>{{this.barcode}}</td>
+          <td>{{this.transferReportID}}</td>
+          <td>{{this.quantity}}</td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  <p>&nbsp;</p>
+</div>
+
+<!-- Insert Form -->
+<div id="insert">
+  <form method="POST" id="frm_addTransferredProduct" action="/addTransferredProducts">
+    <legend><strong>Add An TransferredProduct</strong></legend>
+    <fieldset class="fields">
+      <label> Barcode </label> 
+     <select name="input-barcode" id="input-barcode" required>
+        <option value="">Select A Barcode</option>
+        {{#each products}}
+          <option
+            value="{{this.barcode}}"
+          >{{this.barcode}}</option>
+        {{/each}}
+      </select>
+
+      <label> transferReportID </label> 
+     <select name="input-transferReportID" id="input-transferReportID" required>
+        <option value="">Select A transferReportID</option>
+        {{#each transferReport}}
+          <option
+            value="{{this.transferReportID}}"
+          >{{this.transferReportID}}</option>
+        {{/each}}
+      </select>
+
+      <label> Quantity </label> 
+      <input type="number" name="input-quantity" id="input-quantity" list="quantities" required/>
+      <datalist id="quantities" req>
+        {{#each data}}
+          <option value="{{this.quantity}}">{{this.quantity}}</option>
+        {{/each}}
+      </datalist>
+    </fieldset>
+
+    <input
+      class="btn"
+      type="submit"
+      id="in_addTransferredProducts"
+      value="Add TransferredProduct"
+    />
+  </form>
+</div>
+
+<!-- Update Form -->
+<p>&nbsp;</p>
+<div id="update">
+  <form id="frm_updateTransferredProducts">
+    <legend><strong>Update TransferredProduct</strong></legend>
+    <fieldset class="fields">
+      <input
+        type="hidden"
+        name="updateTransferredProductsID"
+        id="in_updateTransferredProductsID"
+        value="1"
+      />
+      <label> TransferredProduct ID: </label>
+      <select name="updateTransferredProductID" id="updateTransferredProductID">
+        <option value="">Select A TransferredProduct ID</option>
+        {{#each data}}
+          <option
+            value="{{this.transferredProductID}}"
+          >{{this.transferredProductID}}</option>
+        {{/each}}
+      </select>
+
+    <label> Barcode </label>
+    <select name="updateBarcode" id="updateBarcode" required>
+      <option value="">Select A Barcode</option>
+      {{#each products}}
+        <option
+          value="{{this.barcode}}"
+        >{{this.barcode}}</option>
+      {{/each}}
+    </select>
+
+      <label> transferReportID </label> 
+     <select name="updateTransferReportID" id="updateTransferReportID" required>
+        <option value="">Select A transferReportID</option>
+        {{#each transferReport}}
+          <option
+            value="{{this.transferReportID}}"
+          >{{this.transferReportID}}</option>
+        {{/each}}
+      </select>
+
+    <label> Quantity </label>
+      <input type="number" name="updateQuantity" id="updateQuantity" list="quantities" required/>
+      <datalist id="quantities" req>
+        {{#each data}}
+          <option value="{{this.quantity}}">{{this.quantity}}</option>
+        {{/each}}
+      </datalist>
+    </fieldset>
+    <input
+      class="btn"
+      type="button"
+      id="in_updateTransferredProducts"
+      value="Update TransferredProduct"
+      onclick="updateTransferredProducts()"
+    />
+  </form>
+</div>
+
+{{!-- Delete Form --}}
+<p>&nbsp;</p>
+<div id="delete" style="display: block">
+  <form id="frm_deleteTransferredProducts">
+    <legend><strong>Delete TransferredProduct</strong></legend>
+    <fieldset class="fields">
+      <p>Are you sure you wish to delete the following?</p>
+      <input
+        type="hidden"
+        name="deleteTransferredProductsID"
+        id="in_deleteTransferredProductsID"
+        value="1"
+      />
+      <label> TransferredProduct ID: </label>
+      <select name="deleteTransferredProductID" id="deleteTransferredProductID">
+        <option value="">Select A TransferredProduct ID</option>
+        {{#each data}}
+          <option
+            value="{{this.transferredProductID}}"
+          >{{this.transferredProductID}}</option>
+        {{/each}}
+      </select>
+    </fieldset>
+
+    <input
+      class="btn"
+      type="button"
+      id="in_deleteTransferredProducts"
+      value="Delete TransferredProduct"
+      onclick="deleteTransferredProducts()"
+    />
+  </form>
+</div>
+
+{{!-- The following script was created by our team to fill the update form. --}}
+<script>
+  selectedID = document.getElementById("updateTransferredProductID")
+  barcode = document.getElementById("updateBarcode")
+  transferReportID = document.getElementById("updateTransferReportID")
+  quantity = document.getElementById("updateQuantity")
+  table = Array.from(document.querySelectorAll("td"))
+
+  selectedID.addEventListener("change", (e) => {
+    if (selectedID.selectedIndex === 0) {
+      barcode.value = ""
+      transferReportID.value = ""
+      quantity.value = ""
+    } else {
+      barcode.value = table[4 * selectedID.selectedIndex - 3].innerText
+      transferReportID.value = table[4 * selectedID.selectedIndex - 2].innerText
+      quantity.value = table[4 * selectedID.selectedIndex - 1].innerText
+    }
+    })
+</script>

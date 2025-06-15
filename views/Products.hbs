@@ -1,0 +1,244 @@
+{{!-- 
+Citation for the handlebar template:
+Date: 11/26/2023
+Adapted from:
+Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main 
+--}}
+
+<!-- Browse Form -->
+<div id="browse">
+  <table border="1" cellpadding="5">
+    <thead>
+      <tr>
+          <th>Product ID</th>
+          <th>Model Name</th>
+          <th>Color</th>
+          <th>Barcode</th>
+          <th>Size</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each data}}
+        <tr>
+          <td>{{this.productID}}</td>
+          <td>{{this.modelName}}</td>
+          <td>{{this.color}}</td>
+          <td>{{this.barcode}}</td>
+          <td>{{this.size}}</td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  <p>&nbsp;</p>
+</div>
+
+<!-- Insert Form -->
+<div id="insert">
+  <form id="frm_addProduct" >
+    <legend><strong>Add A Product</strong></legend>
+    <fieldset class="fields">
+      <label> Model Name </label> 
+     <select name="input-modelName" id="input-modelName">
+        <option value="">Select A Model Name</option>
+        <option value="NULL">NULL</option>
+        {{#each models}}
+          <option
+            value="{{this.modelName}}"
+          >{{this.modelName}}</option>
+        {{/each}}
+      </select>
+
+      <label> Color </label> 
+     <select name="input-color" id="input-color">
+        <option value="">Select A Color</option>
+        <option value="NULL">NULL</option>
+        {{#each colors}}
+          <option
+            value="{{this.color}}"
+          >{{this.color}}</option>
+        {{/each}}
+      </select>
+
+      <label> Barcode </label> 
+      <input type="number" name="input-barcode" id="input-barcode" required/>
+
+      <label> Size </label> 
+      <input type="text" name="input-size" id="input-size" list="sizes" required/>
+      <datalist id="sizes" req>
+        {{#each data}}
+          <option value="{{this.size}}">{{this.size}}</option>
+        {{/each}}
+      </datalist>
+    </fieldset>
+
+    <input
+      class="btn"
+      type="button"
+      id="in_addProducts"
+      value="Add Product"
+      onclick="addProducts()"
+    />
+  </form>
+</div>
+
+<!-- Update Form -->
+<p>&nbsp;</p>
+<div id="update">
+  <form id="frm_updateProducts">
+    <legend><strong>Update Product</strong></legend>
+    <fieldset class="fields">
+      <input
+        type="hidden"
+        name="updateProductsID"
+        id="in_updateProductsID"
+        value="1"
+      />
+      <label> Product ID: </label>
+      <select name="updateProductID" id="updateProductID">
+        <option value="">Select A Product ID</option>
+        {{#each data}}
+          <option
+            value="{{this.productID}}"
+          >{{this.productID}}</option>
+        {{/each}}
+      </select>
+
+      <label> Model Name </label>
+      <input type="text" name="updateModelName" id="updateModelName" list="modelNames" required/>
+      <datalist id="modelNames" req>
+        <option value="NULL">NULL</option>
+        {{#each models}}
+          <option value="{{this.modelName}}">{{this.modelName}}</option>
+        {{/each}}
+      </datalist>
+
+      <label> Color </label>
+      <input type="text" name="updateColor" id="updateColor" list="colors" required/>
+      <datalist id="colors" req>
+        <option value="NULL">NULL</option>
+        {{#each colors}}
+          <option value="{{this.color}}">{{this.color}}</option>
+        {{/each}}
+      </datalist>
+
+    <label> Barcode </label>
+      <input type="text" name="updateBarcode" id="updateBarcode" list="barcodes" required/>
+      <datalist id="barcodes" req>
+        {{#each data}}
+          <option value="{{this.barcode}}">{{this.barcode}}</option>
+        {{/each}}
+      </datalist>
+
+    <label> Size </label>
+      <input type="text" name="updateSize" id="updateSize" list="sizes" required/>
+      <datalist id="sizes" req>
+        {{#each data}}
+          <option value="{{this.size}}">{{this.size}}</option>
+        {{/each}}
+      </datalist>
+    </fieldset>
+    <input
+      class="btn"
+      type="button"
+      id="in_updateProducts"
+      value="Update Product"
+      onclick="updateProducts()"
+    />
+  </form>
+</div>
+
+{{!-- Delete Form --}}
+<p>&nbsp;</p>
+<div id="delete" style="display: block">
+  <form id="frm_deleteProducts">
+    <legend><strong>Delete Product</strong></legend>
+    <fieldset class="fields">
+      <p>Are you sure you wish to delete the following?</p>
+      <input
+        type="hidden"
+        name="deleteProductsID"
+        id="in_deleteProductsID"
+        value="1"
+      />
+      <label> Product ID: </label>
+      <select name="deleteProductID" id="deleteProductID">
+        <option value="">Select A Product ID</option>
+        {{#each data}}
+          <option
+            value="{{this.productID}}"
+          >{{this.productID}}</option>
+        {{/each}}
+      </select>
+    </fieldset>
+
+    <input
+      class="btn"
+      type="button"
+      id="in_deleteProducts"
+      value="Delete Product"
+      onclick="deleteProducts()"
+    />
+  </form>
+</div>
+
+{{!-- Search Form --}}
+<p>&nbsp;</p>
+<div id="search">
+  <form id="frm_searchProduct" method="GET" action="/Products">
+    <legend><strong>Search Products</strong></legend>
+    <fieldset class="fields">
+      <label> Model Name </label> 
+     <select name="searchModelName" id="searchModelName">
+        <option value="">Select A Model Name</option>
+        <option value="NULL">NULL</option>
+        {{#each models}}
+          <option
+            value="{{this.modelName}}"
+          >{{this.modelName}}</option>
+        {{/each}}
+      </select>
+
+      <label> Color </label> 
+     <select name="searchcolor" id="searchcolor">
+        <option value="">Select A Color</option>
+        <option value="NULL">NULL</option>
+        {{#each colors}}
+          <option
+            value="{{this.color}}"
+          >{{this.color}}</option>
+        {{/each}}
+      </select>
+    </fieldset>
+
+    <input
+      class="btn"
+      type="submit"
+      id="in_searchProducts"
+      value="Search Products"
+    />
+  </form>
+</div>
+
+{{!-- The following script was created by our team to fill the update form. --}}
+<script>
+  selectedID = document.getElementById("updateProductID")
+  modelName = document.getElementById("updateModelName")
+  color = document.getElementById("updateColor")
+  barcode = document.getElementById("updateBarcode")
+  size = document.getElementById("updateSize")
+  table = Array.from(document.querySelectorAll("td"))
+
+  selectedID.addEventListener("change", (e) => {
+    if (selectedID.selectedIndex === 0) {
+      modelName.value = ""
+      color.value = ""
+      barcode.value = ""
+      size.value
+    } else {
+      modelName.value = table[5 * selectedID.selectedIndex - 4].innerText
+      color.value = table[5 * selectedID.selectedIndex - 3].innerText
+      barcode.value = table[5 * selectedID.selectedIndex - 2].innerText
+      size.value = table[5 * selectedID.selectedIndex - 1].innerText
+    }
+    })
+</script>

@@ -1,0 +1,135 @@
+{{!-- 
+Citation for the handlebar template:
+Date: 11/26/2023
+Adapted from:
+Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main 
+--}}
+
+<!-- Browse Form -->
+<div id="browse">
+  <table border="1" cellpadding="5">
+    <thead>
+      <tr>
+          <th>Color ID</th>
+          <th>Color</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each data}}
+        <tr>
+          <td>{{this.colorID}}</td>
+          <td>{{this.color}}</td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  <p>&nbsp;</p>
+</div>
+
+<!-- Insert Form -->
+<div id="insert">
+  <form method="POST" id="frm_addColor" action="/addColors">
+    <legend><strong>Add A Color Name</strong></legend>
+    <fieldset class="fields">
+      <label> Color Name </label> 
+      <input type="text" name="input-colorName" id="input-colorName" required/>
+    </fieldset>
+
+    <input
+      class="btn"
+      type="submit"
+      id="in_addColors"
+      value="Add Color"
+    />
+  </form>
+</div>
+
+<!-- Update Form -->
+<p>&nbsp;</p>
+<div id="update">
+  <form id="frm_updateColors">
+    <legend><strong>Update Color Names</strong></legend>
+    <fieldset class="fields">
+      <input
+        type="hidden"
+        name="updateColorsID"
+        id="in_updateColorsID"
+        value="1"
+      />
+      <label> Color ID: </label>
+      <select name="updateColorID" id="updateColorID">
+        <option value="">Select A Color ID</option>
+        {{#each data}}
+          <option
+            value="{{this.colorID}}"
+          >{{this.colorID}}</option>
+        {{/each}}
+      </select>
+
+      <label> Color Name </label>
+      <input type="text" name="updateColorName" id="updateColorName" list="colorNames" required/>
+      <datalist id="colorNames" req>
+        {{#each data}}
+          <option value="{{this.color}}">{{this.color}}</option>
+        {{/each}}
+      </datalist>
+    </fieldset>
+
+    <input
+      class="btn"
+      type="button"
+      id="in_updateColors"
+      value="Update Color"
+      onclick="updateColors()"
+    />
+  </form>
+</div>
+
+{{!-- Delete Form --}}
+<p>&nbsp;</p>
+<div id="delete" style="display: block">
+  <form id="frm_deleteColors">
+    <legend><strong>Delete Color Name</strong></legend>
+    <fieldset class="fields">
+      <p>Are you sure you wish to delete the following?</p>
+      <input
+        type="hidden"
+        name="deleteColorsID"
+        id="in_deleteColorsID"
+        value="1"
+      />
+      <label> Color ID: </label>
+      <select name="deleteColorID" id="deleteColorID">
+        <option value="">Select A Color ID</option>
+        {{#each data}}
+          <option
+            value="{{this.colorID}}"
+          >{{this.colorID}}</option>
+        {{/each}}
+      </select>
+    </fieldset>
+
+    <input
+      class="btn"
+      type="button"
+      id="in_deleteColors"
+      value="Delete Color"
+      onclick="deleteColors()"
+    />
+  </form>
+</div>
+
+{{!-- The following script was created by our team to fill the update form. --}}
+<script>
+  selectedID = document.getElementById("updateColorID")
+  colorName = document.getElementById("updateColorName")
+  table = Array.from(document.querySelectorAll("td"))
+
+  selectedID.addEventListener("change", (e) => {
+    if (selectedID.selectedIndex === 0) {
+      colorName.value = ""
+    } else {
+      colorName.value = table[2 * selectedID.selectedIndex - 1].innerText
+    }
+    })
+</script>
