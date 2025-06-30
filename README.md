@@ -3,12 +3,12 @@
 ## Project Title: Footwear Distro
 Team members: Tony Chan, Jacky Kuang
 
-Footwear Distro is a chain of shoe stores with its own distribution centers. Our company has 3 distribution centers, 
-one located on the west coast, one located in the south, and another on the east coast, and 13 stores across the country. 
-Each store specializes in a specific type of footwear, luxury, casual, athletic, and discount. The store can expect 
+Footwear Distro is a chain of shoe stores with its own distribution centers. Our company has 3 distribution centers,
+one located on the west coast, one located in the south, and another on the east coast, and 13 stores across the country.
+Each store specializes in a specific type of footwear, luxury, casual, athletic, and discount. The store can expect
 to receive products from the distribution centers only, not other stores.
 
-This repository contains my independent copy of a collaborative academic project completed as part of the 
+This repository contains my independent copy of a collaborative academic project completed as part of the
 Computer Science program.
 
 ## Key Features
@@ -39,7 +39,7 @@ Track changes to inventory and transfers for accountability.
 These features will help you manage and optimize the distribution of footwear across your network.
 
 ## Collaborators
-This project was originally developed in collaboration with teammate Jacky Kuang, and myself. This repo is 
+This project was originally developed in collaboration with teammate Jacky Kuang, and myself. This repo is
 personalized, independently maintained version created for portfolio and resume.
 
 ## Tech Stack - Full-stack JavaScript application
@@ -76,7 +76,33 @@ http://flip3.engr.oregonstate.edu:7524
 Note: If you see any errors, make sure you are in the footwear-distro-project folder and that Node.js is installed.
 
 ## Screenshots
-See Final PDF Report below
+
+**[Figure 1. Home Page](docs/screenshots/1_home_page.jpg)**  
+This is the home page of the application.
+
+**[Figure 2. Distribution Centers Page](docs/screenshots/2_distribution_centers_page.jpg)**  
+Users can **ADD**, **UPDATE**, and **DELETE** entries for Distribution Centers. Records are displayed in a table pulled from the database.
+
+**[Figure 3. Inventories Page](docs/screenshots/3_inventories_page.jpg)**  
+Manages Inventories — the intersection of Distribution Centers and Products. Deleting a related entry cascades deletion. Full CRUD supported.
+
+**[Figure 4. Products Page](docs/screenshots/4_products_page.jpg)**  
+Supports **SEARCH**, **ADD**, **UPDATE**, and **DELETE**. Nullable relationships with Models and Colors. Includes search filtering by dropdown.
+
+**[Figure 5. Models Page](docs/screenshots/5_models_page.jpg)**  
+Displays model data with full CRUD support. Data is shown in a database-driven table.
+
+**[Figure 6. Colors Page](docs/screenshots/6_colors_page.jpg)**  
+Users can add, update, and delete color entries. Data is listed from the database.
+
+**[Figure 7. Transferred Products Page](docs/screenshots/7_transferred_products_page.jpg)**  
+Intersection table between Transfer Reports and Products. Users can manage transfers with full CRUD capabilities.
+
+**[Figure 8. Transfer Reports Page](docs/screenshots/8_transfer_reports_page.jpg)**  
+Manages the linkage between Distribution Centers and Stores for each product transfer. Deletion of linked entities cascades.
+
+**[Figure 9. Stores Page](docs/screenshots/9_stores_page.jpg)**  
+CRUD-enabled page for store contact and location records.
 
 ## PDF Report
 [Final Report (PDF)](docs/ProjectGroup88_Step6_FINAL.pdf)
@@ -122,7 +148,7 @@ form was created by us. In the TransferReports.hbs, the date object was created 
 using the documentation from MDN.
 Source URL: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date
 
-In the TransferReports.hbs file, the handlebars block helper and conditional code 
+In the TransferReports.hbs file, the handlebars block helper and conditional code
 in the section named <!-- browse --> was created by us using the documentation from handlebars.
 Source URL: https://handlebarsjs.com/guide/
 
@@ -131,3 +157,4 @@ Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main
 
 In the app.js file, the handlebars helper was created by us using the documentation from handlebars.
 Source URL: https://handlebarsjs.com/guide/
+
