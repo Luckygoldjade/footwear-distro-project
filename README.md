@@ -1,7 +1,7 @@
 # Academic project completed in Fall 2023
 
 ## Project Title: Footwear Distro
-Team members: Tony Chan, Jacky Kuang
+Team members: Tony C, Jacky K
 
 Footwear Distro is a chain of shoe stores with its own distribution centers. Our company has 3 distribution centers,
 one located on the west coast, one located in the south, and another on the east coast, and 13 stores across the country.
@@ -39,7 +39,7 @@ Track changes to inventory and transfers for accountability.
 These features will help you manage and optimize the distribution of footwear across your network.
 
 ## Collaborators
-This project was originally developed in collaboration with teammate Jacky Kuang, and myself. This repo is
+This project was originally developed in collaboration with teammate Jacky K, and myself. This repo is
 personalized, independently maintained version created for portfolio and resume.
 
 ## Tech Stack - Full-stack JavaScript application
